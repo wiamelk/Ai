@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon & l'IA — Rapport Stratégique</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f0e8;
+    --amber: #e8a020;
+    --amber-dark: #b87a10;
+    --rust: #c04830;
+    --slate: #2a3040;
+    --muted: #8a8070;
+    --line: rgba(10,10,10,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    padding: 60px 0 48px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 52px;
+    position: relative;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .header-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 32px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--amber);
+    display: block;
+  }
+
+  .header-sub {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--muted);
+    max-width: 520px;
+    margin-top: 12px;
+  }
+
+  .header-tag {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 120px;
+    height: 120px;
+    border: 2px solid var(--amber);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber-dark);
+    animation: spin 30s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .header-tag strong {
+    font-size: 22px;
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: var(--amber);
+    animation: spinReverse 30s linear infinite;
+  }
+
+  @keyframes spinReverse { to { transform: rotate(-360deg); } }
+
+  /* ─── INTRO BLOCK ─── */
+  .intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .intro-lead {
+    font-size: 22px;
+    line-height: 1.5;
+    grid-column: 1 / -1;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .intro-lead strong { color: var(--amber-dark); font-style: italic; }
+
+  .stat-pill {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 24px 28px;
+    border-radius: 4px;
+  }
+
+  .stat-pill .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-pill .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.6);
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    margin-bottom: 60px;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--amber-dark);
+    letter-spacing: 0.1em;
+    padding-top: 4px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    border-bottom: 2px solid var(--amber);
+    padding-bottom: 8px;
+    flex: 1;
+  }
+
+  /* ─── CARDS GRID ─── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(10,10,10,0.08);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--amber);
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .card p {
+    font-size: 14.5px;
+    color: #444;
+    line-height: 1.55;
+  }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight {
+    background: var(--slate);
+    color: var(--paper);
+    padding: 36px 40px;
+    border-radius: 4px;
+    margin: 32px 0;
+    position: relative;
+  }
+
+  .highlight::after {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    right: 32px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 120px;
+    color: var(--amber);
+    line-height: 1;
+    opacity: 0.3;
+  }
+
+  .highlight p {
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  .highlight cite {
+    display: block;
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-style: normal;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    position: relative;
+    padding-left: 36px;
+    margin-top: 20px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--amber), var(--rust));
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tl-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 7px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--amber);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--amber);
+  }
+
+  .tl-year {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--amber-dark);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .tl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .tl-text { font-size: 14.5px; color: #444; line-height: 1.55; }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  thead tr {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  tbody tr:hover { background: rgba(232,160,32,0.06); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .badge-high { background: rgba(200,70,40,0.12); color: var(--rust); }
+  .badge-med  { background: rgba(232,160,32,0.15); color: var(--amber-dark); }
+  .badge-low  { background: rgba(42,48,64,0.1); color: var(--slate); }
+
+  /* ─── TWO-COL TEXT ─── */
+  .two-col {
+    column-count: 2;
+    column-gap: 40px;
+    margin-top: 16px;
+    font-size: 15.5px;
+    color: #333;
+  }
+
+  .two-col p { margin-bottom: 14px; break-inside: avoid; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 2px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  footer strong {
+    font-size: 20px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  section:nth-child(1) { animation-delay: 0.05s; }
+  section:nth-child(2) { animation-delay: 0.10s; }
+  section:nth-child(3) { animation-delay: 0.15s; }
+  section:nth-child(4) { animation-delay: 0.20s; }
+  section:nth-child(5) { animation-delay: 0.25s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .intro { grid-template-columns: 1fr; }
+    .cards { grid-template-columns: 1fr; }
+    .two-col { column-count: 1; }
+    .header-tag { display: none; }
+    .intro-lead { grid-column: 1; }
+    footer { flex-direction: column; gap: 12px; }
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body::before { display: none; }
+    section { animation: none; }
+    .card:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <div class="header-meta">
+    <span>Rapport Stratégique</span>
+    <span>Analyse IA & Ressources</span>
+    <span>Février 2026</span>
+  </div>
+  <h1>Amazon<em>&amp; l'Intelligence Artificielle</em></h1>
+  <p class="header-sub">Comment le géant du e-commerce transforme la gestion de ses ressources grâce à l'IA</p>
+  <div class="header-tag">
+    <strong>IA</strong>
+    AWS · Alexa · Go · Kiva
+  </div>
+</header>
+
+<!-- ═══ INTRO ═══ -->
+<div class="intro">
+  <p class="intro-lead">
+    Amazon est l'une des entreprises qui a le plus profondément intégré l'intelligence artificielle dans la gestion opérationnelle de ses ressources — humaines, logistiques, énergétiques et cloud. <strong>L'IA n'y est pas un outil accessoire, c'est le système nerveux central</strong> d'une infrastructure mondiale qui traite des milliards de transactions chaque année.
+  </p>
+  <div class="stat-pill">
+    <div class="num">750+</div>
+    <div class="label">Entrepôts automatisés dans le monde</div>
+  </div>
+  <div class="stat-pill">
+    <div class="num">$100Md</div>
+    <div class="label">Investissements IA & cloud en 2024</div>
+  </div>
+  <div class="stat-pill">
+    <div class="num">40%</div>
+    <div class="label">Réduction des coûts de picking via robots</div>
+  </div>
+  <div class="stat-pill">
+    <div class="num">350M+</div>
+    <div class="label">Produits gérés par l'IA sur la plateforme</div>
+  </div>
+</div>
+
+<!-- ═══ 1. LOGISTIQUE ═══ -->
+<section>
+  <div class="section-header">
+    <span class="section-num">01 —</span>
+    <h2>Logistique & entrepôts intelligents</h2>
+  </div>
+
+  <p>Au cœur des centres de distribution d'Amazon, l'IA coordonne des flottes de robots autonomes et optimise chaque mouvement de marchandise. Le programme <strong>Robotic Operations</strong>, lancé dès le rachat de Kiva Systems en 2012, a transformé la logistique en un ballet algorithmique de précision millimétrée.</p>
+
+  <div class="cards">
+    <div class="card">
+      <span class="card-icon">🤖</span>
+      <h3>Robots Kiva / Amazon Robotics</h3>
+      <p>Plus de 750 000 robots autonomes opèrent dans les entrepôts. Ils transportent les étagères vers les employés plutôt que l'inverse, réduisant le déplacement humain de 80%.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">📦</span>
+      <h3>Tri automatisé par vision</h3>
+      <p>Des caméras IA analysent forme, taille et fragilité de chaque colis en temps réel pour assigner automatiquement le bon type d'emballage et d'acheminement.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🗺️</span>
+      <h3>Optimisation des itinéraires</h3>
+      <p>Les algorithmes de routage dynamique, combinant météo, trafic et densité des commandes, réduisent les kilomètres parcourus par les livreurs jusqu'à 25%.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔮</span>
+      <h3>Prévision de la demande</h3>
+      <p>Le moteur de prévision anticipe les pics de commandes (Prime Day, fêtes) avec jusqu'à 90 jours d'avance, pré-positionnant les stocks dans les entrepôts régionaux.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2. RESSOURCES HUMAINES ═══ -->
+<section>
+  <div class="section-header">
+    <span class="section-num">02 —</span>
+    <h2>Gestion des ressources humaines par l'IA</h2>
+  </div>
+
+  <div class="two-col">
+    <p>Amazon déploie des systèmes d'IA pour planifier les horaires de ses 1,5 million d'employés en fonction des projections de charge, des congés et des compétences disponibles. L'outil interne <em>ADAPT</em> génère des plannings hebdomadaires optimisés en quelques secondes.</p>
+    <p>Le système de recrutement automatisé analyse les CV, les historiques professionnels et même les performances dans des simulations de tâches pour pré-qualifier les candidats — bien que ces pratiques aient soulevé des controverses éthiques, conduisant Amazon à réviser certains algorithmes en 2018.</p>
+    <p>En entrepôt, les performances individuelles sont monitorées en temps réel : cadence de picking, taux d'erreur, temps d'arrêt. Ces données alimentent des systèmes d'alertes automatiques et de recommandations de formation personnalisée.</p>
+    <p>Pour les employés de bureau, Amazon utilise des outils d'IA générative (notamment alimentés par <em>Amazon Bedrock</em>) pour automatiser les tâches répétitives et libérer du temps pour des missions à plus forte valeur ajoutée.</p>
+  </div>
+
+  <div class="highlight">
+    <p>« Nous ne gérons pas simplement des personnes — nous gérons des flux. L'IA nous permet de voir le système entier : quand un livreur termine tôt sa tournée, l'algorithme lui suggère immédiatement d'absorber des colis d'un collègue en difficulté. »</p>
+    <cite>— Jeff Wilke, ex-CEO Amazon Worldwide Consumer, 2021</cite>
+  </div>
+</section>
+
+<!-- ═══ 3. CLOUD & ÉNERGIE ═══ -->
+<section>
+  <div class="section-header">
+    <span class="section-num">03 —</span>
+    <h2>AWS & optimisation des ressources cloud</h2>
+  </div>
+
+  <p>AWS (Amazon Web Services), qui représente ~70% des profits d'Amazon, est un laboratoire vivant d'IA appliquée à la gestion des ressources informatiques. L'IA y pilote l'allocation dynamique de capacité de calcul, le refroidissement des datacenters et la maintenance prédictive des serveurs.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Outil AWS</th>
+          <th>Fonction IA</th>
+          <th>Impact</th>
+          <th>Priorité</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>EC2 Auto Scaling</strong></td>
+          <td>Ajustement prédictif des serveurs selon la charge</td>
+          <td>Réduction des coûts clients jusqu'à 35%</td>
+          <td><span class="badge badge-high">Critique</span></td>
+        </tr>
+        <tr>
+          <td><strong>Amazon CodeWhisperer</strong></td>
+          <td>IA générative pour les développeurs</td>
+          <td>+57% de vitesse de coding</td>
+          <td><span class="badge badge-high">Critique</span></td>
+        </tr>
+        <tr>
+          <td><strong>AWS Trusted Advisor</strong></td>
+          <td>Analyse des ressources sous-utilisées</td>
+          <td>Économies moyennes de 20% sur les factures</td>
+          <td><span class="badge badge-med">Élevée</span></td>
+        </tr>
+        <tr>
+          <td><strong>Amazon SageMaker</strong></td>
+          <td>MLOps & entraînement de modèles à grande échelle</td>
+          <td>Utilisé par 100 000+ entreprises</td>
+          <td><span class="badge badge-med">Élevée</span></td>
+        </tr>
+        <tr>
+          <td><strong>Graviton Chips</strong></td>
+          <td>Puces ARM optimisées par ML pour l'efficacité énergétique</td>
+          <td>40% moins énergivore que x86</td>
+          <td><span class="badge badge-low">Stratégique</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:20px; font-size:15px; color:#555;">Pour ses datacenters, Amazon utilise des modèles d'IA inspirés de ceux de DeepMind (Google) pour piloter le refroidissement : les systèmes apprennent des patterns thermiques et ajustent automatiquement la ventilation, réduisant la consommation énergétique liée au refroidissement de <strong>près de 30%</strong>.</p>
+</section>
+
+<!-- ═══ 4. COMMERCE & CLIENT ═══ -->
+<section>
+  <div class="section-header">
+    <span class="section-num">04 —</span>
+    <h2>Commerce, prix & expérience client</h2>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <span class="card-icon">💰</span>
+      <h3>Pricing dynamique</h3>
+      <p>Les algorithmes modifient les prix de millions de produits toutes les 10 minutes en tenant compte de la concurrence, de la demande, des stocks et même de la météo locale.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <h3>Recommandations personnalisées</h3>
+      <p>35% du chiffre d'affaires d'Amazon est attribué au moteur de recommandation — un modèle de filtrage collaboratif entraîné sur des milliards d'interactions utilisateur.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🛒</span>
+      <h3>Amazon Go & Just Walk Out</h3>
+      <p>Technologie de magasin sans caisse utilisant vision par ordinateur, fusion de capteurs et deep learning pour suivre les articles pris en rayon et débiter automatiquement.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎙️</span>
+      <h3>Alexa & NLP</h3>
+      <p>500 millions d'appareils Alexa collectent des données de comportement enrichissant les modèles de compréhension du langage naturel pour affiner les offres commerciales.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5. TIMELINE ═══ -->
+<section>
+  <div class="section-header">
+    <span class="section-num">05 —</span>
+    <h2>Chronologie de l'IA chez Amazon</h2>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">2012</div>
+      <div class="tl-title">Acquisition de Kiva Systems</div>
+      <div class="tl-text">775 millions de dollars pour intégrer la robotique d'entrepôt. Point de départ de la transformation IA de la logistique.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2014</div>
+      <div class="tl-title">Lancement d'Alexa & Echo</div>
+      <div class="tl-text">Premier assistant vocal grand public basé sur le NLP, ouvrant la voie à une collecte de données comportementales massives.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2018</div>
+      <div class="tl-title">Amazon Go — magasin sans caisse</div>
+      <div class="tl-text">Déploiement de la technologie "Just Walk Out" combinant caméras, capteurs de poids et deep learning dans des épiceries physiques.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2020–22</div>
+      <div class="tl-title">Puces Graviton & Trainium</div>
+      <div class="tl-text">Amazon développe ses propres siliciums optimisés pour l'IA, réduisant la dépendance aux GPU Nvidia et améliorant l'efficacité énergétique des datacenters.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2023–24</div>
+      <div class="tl-title">IA générative & Bedrock</div>
+      <div class="tl-text">Amazon Bedrock permet l'accès à des LLMs multiples (Claude, Titan, Llama). Amazon investit 4 milliards dans Anthropic. L'IA générative s'intègre dans Alexa, les outils vendeurs et les services AWS.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2025–26</div>
+      <div class="tl-title">Agents autonomes & drones</div>
+      <div class="tl-text">Déploiement à grande échelle de Prime Air (livraison par drone) et d'agents IA autonomes capables de gérer des chaînes logistiques complètes sans intervention humaine.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONCLUSION ═══ -->
+<section>
+  <div class="section-header">
+    <span class="section-num">06 —</span>
+    <h2>Enjeux &amp; perspectives</h2>
+  </div>
+
+  <div class="two-col">
+    <p>L'intégration de l'IA dans la gestion des ressources a permis à Amazon de maintenir des marges compétitives malgré des volumes qui triplent tous les cinq ans. La productivité opérationnelle est aujourd'hui inimaginable sans ces systèmes automatisés.</p>
+    <p>Cependant, cette course à l'automatisation soulève des questions sociales importantes : conditions de travail sous surveillance algorithmique, obsolescence de certains métiers, et biais dans les systèmes de recrutement automatisé.</p>
+    <p>Sur le plan énergétique, la croissance des datacenters IA d'AWS représente un défi colossal. Amazon s'est engagé sur une trajectoire de neutralité carbone d'ici 2040, en investissant dans des fermes solaires et en développant des puces toujours plus efficaces.</p>
+    <p>La prochaine frontière est celle des <em>agents autonomes</em> : des systèmes capables de planifier, décider et exécuter des tâches logistiques complexes de bout en bout, sans supervision humaine — une révolution qui redéfinira profondément le rôle des employés dans la chaîne de valeur d'Amazon.</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>
+    <strong>Amazon &amp; IA</strong><br>
+    Rapport synthétique — Février 2026
+  </div>
+  <div style="text-align:right;">
+    Sources : AWS Re:Invent · Amazon Annual Reports<br>
+    McKinsey Digital · MIT Tech Review · Wired
+  </div>
+</footer>
+
+</body>
+</html>
